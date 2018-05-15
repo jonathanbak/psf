@@ -1,0 +1,29 @@
+{
+    "name": "sangwonbak/psf",
+    "description": "php simple framework",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jonathan Bak",
+            "email": "jonathanbak@gmail.com"
+        }
+    ],
+    "require": {
+        "jonathanbak/mysqlilib": "1.2.1"
+    },
+    "require-dev": {
+        "phpdocumentor/phpdocumentor": "dev-master",
+        "phpunit/phpunit": "^4"
+    },
+    "autoload": {
+        "psr-4": {
+            "PSF\\": "src/PSF"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PSF\\Test\\": "tests/PSF"
+        }
+    }
+}
