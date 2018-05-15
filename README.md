@@ -21,7 +21,7 @@ requires the following:
 
 * PHP 5.3 or higher
 * Composer - Dependency Management for PHP
-* mysqlilib, https://github.com/zendframework/zend-config
+* mysqlilib, https://github.com/jonathanbak/mysqlilib
 
 **Note:**
 php composer 를 설치하고 PSF를 추가하면 자동으로 의존성 라이브러리들을 설치합니다.
@@ -38,7 +38,7 @@ themselves. To create libraries/packages please read the
     ``` json
     {
         "require": {
-            "jonathanbak/PSF":"~1.0"
+            "jonathanbak/psf":"~1.0"
         }
     }
     ```
@@ -70,3 +70,4 @@ PSF 사용시 추천하는 폴더 구조는 아래와 같습니다.
     └── vendor              # Composer 라이브러리 폴더
     
 **app 폴더 하위 구조**는 *config/site/usersiteurl.json 파일안에서 별도 정의가 가능합니다.*
+**app 폴더 상위 구조**는 *configure.json 파일 에서 별도 정의가 가능합니다.*
