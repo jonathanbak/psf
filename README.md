@@ -1,2 +1,72 @@
-# psf
-php simple framework
+README
+======
+
+What is PSF?
+------------
+
+PSF는 PHP Simple Framework 로 간단한 파일(configure.json) 설정 만으로 다중 사이트를 운영할수 있게 도와주는 프레임워크 입니다.
+
+
+Features
+--------
+
+PSF supports the following:
+
+* *PHP 5.3 이상에서 사용 가능합니다.  
+
+Requirements
+------------
+
+requires the following:
+
+* PHP 5.3 or higher
+* Composer - Dependency Management for PHP
+* mysqlilib, https://github.com/zendframework/zend-config
+
+**Note:**
+php composer 를 설치하고 PSF를 추가하면 자동으로 의존성 라이브러리들을 설치합니다.
+
+Installation
+------------
+
+1. Download and install Composer by following the [official instructions](https://getcomposer.org/download/).
+2. Create a composer.json defining your dependencies. Note that this example is
+a short version for applications that are not meant to be published as packages
+themselves. To create libraries/packages please read the
+[documentation](https://getcomposer.org/doc/02-libraries.md).
+
+    ``` json
+    {
+        "require": {
+            "jonathanbak/PSF":"~1.0"
+        }
+    }
+    ```
+
+3. Run Composer: `php composer.phar install`
+4. Browse for more packages on [Packagist](https://packagist.org).
+
+
+Folder Structure
+-------------------
+
+PSF 사용시 추천하는 폴더 구조는 아래와 같습니다. 
+
+    .
+    ├── app
+    │   └── com.example         # example.com 사이트 루트 폴더
+    │       ├── _tmp            # 임시폴더, 캐쉬파일과 로그 생성
+    │       ├── controllers     # URL에서 접근하는 controller 파일
+    │       ├── models          # 모델 파일, 주요 로직
+    │       └── views           # View 폴더
+    │           ├── css             # css 파일
+    │           ├── image           # images 파일
+    │           ├── js              # javascript 파일
+    │           └── tpl             # tpl 파일 (html 파일)
+    ├── config              # 설정 파일
+    │   ├── db              # DB 정보 설정 파일
+    │   └── site            # 사이트 설정 파일
+    ├── html                # 실제 웹서버의 DOCUMENT_ROOT
+    └── vendor              # Composer 라이브러리 폴더
+    
+**app 폴더 하위 구조**는 *config/site/usersiteurl.json 파일안에서 별도 정의가 가능합니다.*

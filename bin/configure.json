@@ -1,0 +1,11 @@
+{
+    "description": "PHP Simple Framework",
+    "charset": "utf-8",
+    "displayErrors": "on",
+    "allowIps": [
+        "127.0.0.1"
+    ],
+    "appDir": "app",
+    "configDir": "config",
+    "installed": "0"
+}
