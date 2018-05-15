@@ -135,6 +135,7 @@ class Application extends Object
         $domainName = '';
         $namespace = '';
         $redirectSite = '';
+        $dbSet = '';
         $inputDatas = array();
 
         if($standalone){
@@ -153,6 +154,9 @@ class Application extends Object
                         break;
                     case '-r': //연결 도메인
                         $redirectSite = $value;
+                        break;
+                    case '-db': //디비연결
+                        $dbSet = $value;
                         break;
                     case '-d': //추가 파라미터 설정
                         $inputDatas = json_decode($value, true);
@@ -183,6 +187,15 @@ class Application extends Object
         }
         if (!$redirectSite) $redirectSite = $domainName;
 
+        if (!$dbSet) {
+            echo "Input db file name : ";
+            fscanf(STDIN, "%s\n", $dbSet); // reads number from STDIN
+            echo $dbSet . "\n";
+        }
+        if(!$dbSet){
+            $dbSet = $domainName;
+        }
+
         $rootDir = Directory::root();
         $command = "grep '\"namespace\": \"" . $namespace . "\"' " . $rootDir . "/config/site/* | awk '{print $1}' | sed 's/" . str_replace('/', '\/', $rootDir) . "\/config\/site\/\(.*\):/\\1/g'";
         echo $command . "\n";
@@ -202,7 +215,7 @@ class Application extends Object
             "namespace" => $namespace,
             "include_sites" => array(),
             "dirs" => Installer::baseDirInfo($domainName),
-            "dbset" => $domainName,
+            "dbset" => $dbSet,
             "route" => Installer::baseRouteInfo()
         );
         try {
@@ -335,6 +348,11 @@ class Application extends Object
             }
         }
 
+        if (!$fileName) {
+            echo "Input db file name (domain name) : ";
+            fscanf(STDIN, "%s\n", $fileName); // reads number from STDIN
+            echo $fileName . "\n";
+        }
         if (!$host) {
             echo "Input db host : ";
             fscanf(STDIN, "%s\n", $host); // reads number from STDIN
@@ -354,6 +372,11 @@ class Application extends Object
             echo "Input database name : ";
             fscanf(STDIN, "%s\n", $dbName); // reads number from STDIN
             echo $dbName . "\n";
+        }
+        if (!$dbAlias) {
+            echo "Input db alias name : ";
+            fscanf(STDIN, "%s\n", $dbAlias); // reads number from STDIN
+            echo $dbAlias . "\n";
         }
         if (!$dbAlias) $dbAlias = $dbName;
         if (!$fileName) {
