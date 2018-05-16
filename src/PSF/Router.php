@@ -3,6 +3,7 @@
 namespace PSF;
 
 use PSF\Exception\RouterException;
+use PSF\Helper\Uri;
 
 class Router extends Object
 {
@@ -79,7 +80,7 @@ class Router extends Object
                     if (is_object($action)) {
                         $currentUri = $action;
                     } else {
-                        $currentUri = $this->getUri($action);
+                        $currentUri = Uri::get($action);
                     }
                 }
             }
@@ -89,7 +90,7 @@ class Router extends Object
             return call_user_func_array($currentUri, array());
         } else {
             if (count($currentUri) == 1 && empty($currentUri[0])) {
-                $currentUri = $this->getUri($routeConfig['autoload']);
+                $currentUri = Uri::get($routeConfig['autoload']);
             }
             return $this->callClassByUri($currentUri);
         }
