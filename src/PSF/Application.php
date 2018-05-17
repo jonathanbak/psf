@@ -96,13 +96,6 @@ class Application extends Object
 
     protected function setSite()
     {
-        $dir = 'root';
-        $siteConfig = Config::site('dirs');
-        $siteRootDir = ArraySearch::searchValueByKey($dir, $siteConfig);
-        if ($siteRootDir === Constant::NONE) throw new DirectoryException("site " . $dir . " 디렉토리 설정이 잘못되었습니다.");
-
-        Directory::setSiteRoot($siteRootDir);
-
         //setting template
         $templateDir = $this->getSiteDir('template');
         $cacheDir = $this->getSiteDir('compile');
@@ -270,6 +263,7 @@ class Application extends Object
         File::put_json_pretty($configFileName, $siteNewConfigure);
         try {
             //폴더 생성
+            $this->setSiteRoot();
             $this->setSite();
             $siteRoot = Directory::siteRoot();
             if (!is_dir($siteRoot)) mkdir($siteRoot, 0755, true);
