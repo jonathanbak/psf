@@ -119,21 +119,26 @@ class Application extends Object
         $this->template->setCached($cacheDir);
     }
 
+    protected function setCommonDir()
+    {
+        /**
+         * create basic directory
+         */
+        $appRoot = Directory::app();
+        if (!is_dir($appRoot)) mkdir($appRoot, 0755, true);
+        $path = Directory::root() . DIRECTORY_SEPARATOR . Config::common('configDir');
+        if (!is_dir($path)) mkdir($path, 0755, true);
+        $path = Directory::config(Constant::DIR_CONFIG_SITE);
+        if (!is_dir($path)) mkdir($path, 0755, true);
+        $path = Directory::config(Constant::DIR_CONFIG_DB);
+        if (!is_dir($path)) mkdir($path, 0755, true);
+
+    }
     protected function install()
     {
         if (!Config::common('installed')) {
-            /**
-             * create basic directory
-             */
-            $appRoot = Directory::app();
-            if (!is_dir($appRoot)) mkdir($appRoot, 0755, true);
-            $path = Directory::root() . DIRECTORY_SEPARATOR . Config::common('configDir');
-            if (!is_dir($path)) mkdir($path, 0755, true);
-            $path = Directory::config(Constant::DIR_CONFIG_SITE);
-            if (!is_dir($path)) mkdir($path, 0755, true);
-            $path = Directory::config(Constant::DIR_CONFIG_DB);
-            if (!is_dir($path)) mkdir($path, 0755, true);
 
+            $this->setCommonDir();
             $newConfigure = ArrayMerge::recursive_distinct(Config::common(), array('installed' => '1'));
 
             $this->createDb(false);
@@ -157,6 +162,7 @@ class Application extends Object
         $inputDatas = array();
 
         if($standalone){
+            $this->setCommonDir();
             $params = $_SERVER['argv'];
             array_shift($params);
             $inputParams = array_chunk($params, 2);
@@ -328,6 +334,7 @@ class Application extends Object
         $inputDatas = array();
 
         if($standalone){
+            $this->setCommonDir();
             $params = $_SERVER['argv'];
             array_shift($params);
             $inputParams = array_chunk($params, 2);
