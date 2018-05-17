@@ -22,6 +22,10 @@ class Application extends Object
         $this->autoloader = $autoLoader;
         Directory::setRoot(empty($rootDir) ? dirname($_SERVER['DOCUMENT_ROOT']) : $rootDir);
         Config::init();
+        if (Config::common('installed')){
+            $this->setSiteRoot();
+            $this->autoload();
+        }
     }
 
     protected function setTemplate(TemplateInterface $template)
@@ -76,9 +80,18 @@ class Application extends Object
             //static 이면 바로 처리
             Output::printStatic($currentUri);
         } else {
-            $this->autoload();
             Router::execute($currentUri);
         }
+    }
+
+    protected function setSiteRoot()
+    {
+        $dir = 'root';
+        $siteConfig = Config::site('dirs');
+        $siteRootDir = ArraySearch::searchValueByKey($dir, $siteConfig);
+        if ($siteRootDir === Constant::NONE) throw new DirectoryException("site " . $dir . " 디렉토리 설정이 잘못되었습니다.");
+
+        Directory::setSiteRoot($siteRootDir);
     }
 
     protected function setSite()
