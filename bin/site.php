@@ -5,7 +5,7 @@ use PSF\Application as App;
 use PSF\Installer;
 
 try {
-    App::set($composerAutoloader, ROOT_DIR);
+    App::reset($composerAutoloader, ROOT_DIR);
     App::createSite();
     Installer::success();
 } catch (\Exception $e) {
