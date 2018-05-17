@@ -28,6 +28,18 @@ class Application extends Object
         }
     }
 
+    protected function reset(ClassLoader $autoLoader, $rootDir = '')
+    {
+        if ($autoLoader instanceof ClassLoader === false) throw new Exception(new Error(Error::REQUIRE_AUTOLOADER));
+        $this->autoloader = $autoLoader;
+        Directory::setRoot(empty($rootDir) ? dirname($_SERVER['DOCUMENT_ROOT']) : $rootDir);
+        Config::init();
+
+        $newConfigure = ArrayMerge::recursive_distinct(Config::common(), array('installed' => '0'));
+        $configFileName = Config::getCommonConfigFile();
+        File::put_json_pretty($configFileName, $newConfigure);
+    }
+
     protected function setTemplate(TemplateInterface $template)
     {
         $this->template = $template;
@@ -299,6 +311,10 @@ class Application extends Object
             Installer::fail($e->getMessage());
             exit;
         }
+
+        $newConfigure = ArrayMerge::recursive_distinct(Config::common(), array('installed' => '1'));
+        $configFileName = Config::getCommonConfigFile();
+        File::put_json_pretty($configFileName, $newConfigure);
     }
 
     protected function createDb($standalone = true)
