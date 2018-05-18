@@ -240,6 +240,7 @@ class Application extends Object
             "namespace" => $namespace,
             "include_sites" => array(),
             "dirs" => Installer::baseDirInfo($domainName),
+            "extensionTemplate" => "tpl",
             "dbset" => $dbSet,
             "route" => Installer::baseRouteInfo()
         );

@@ -26,9 +26,10 @@ class Output extends Object
 
     protected function display($tpl = Constant::NONE, $properties = array())
     {
-        $templateFile = Application::getSiteDir('template') . DIRECTORY_SEPARATOR . $tpl . Constant::DOT . Constant::TEMPLATE_EXTENSION;
+        $templateExtension = Constant::DOT . (Config::site("extensionTemplate") ? Config::site("extensionTemplate") : Constant::TEMPLATE_EXTENSION);
+        $templateFile = Application::getSiteDir('template') . DIRECTORY_SEPARATOR . $tpl . $templateExtension;
         if (is_file($templateFile)) {
-            Application::getTemplate()->display($tpl . Constant::DOT . Constant::TEMPLATE_EXTENSION, $properties);
+            Application::getTemplate()->display($tpl . $templateExtension, $properties);
         } else {
             throw new OutputException("Not Found File. {$templateFile}", 404);
         }
