@@ -69,11 +69,34 @@ class Output extends Object
                     break;
             }
             if (is_file($mimeFilePath)) {
+                $this->cacheHeader($mimeFilePath);
                 echo file_get_contents($mimeFilePath);
             } else {
                 throw new OutputException("Not Found File. {$mimeFilePath}", 404);
             }
             exit;
         }
+    }
+
+    protected function cacheHeader($file)
+    {
+        $lastModified = filemtime($file);
+        $etagFile = md5_file($file);
+
+        $ifModifiedSince = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
+        $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
+
+        //set last-modified header
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s", $lastModified) . " GMT");
+        //set etag-header
+        header("Etag: $etagFile");
+        //header('Cache-Control: public');
+
+        //check if page has changed. If not, send 304 and exit
+        if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
+            header("HTTP/1.1 304 Not Modified");
+            exit;
+        }
+
     }
 }
