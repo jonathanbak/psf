@@ -22,7 +22,7 @@ class Application extends Object
         $this->autoloader = $autoLoader;
         Directory::setRoot(empty($rootDir) ? dirname($_SERVER['DOCUMENT_ROOT']) : $rootDir);
         Config::init();
-        if (Config::common('installed')){
+        if (Config::common('installed')) {
             $this->setSiteRoot();
             $this->autoload();
         }
@@ -134,6 +134,7 @@ class Application extends Object
         if (!is_dir($path)) mkdir($path, 0755, true);
 
     }
+
     protected function install()
     {
         if (!Config::common('installed')) {
@@ -161,7 +162,7 @@ class Application extends Object
         $dbSet = '';
         $inputDatas = array();
 
-        if($standalone){
+        if ($standalone) {
             $this->setCommonDir();
             $params = $_SERVER['argv'];
             array_shift($params);
@@ -216,7 +217,7 @@ class Application extends Object
             fscanf(STDIN, "%s\n", $dbSet); // reads number from STDIN
             echo $dbSet . "\n";
         }
-        if(!$dbSet){
+        if (!$dbSet) {
             $dbSet = $domainName;
         }
 
@@ -333,7 +334,7 @@ class Application extends Object
         $fileName = '';
         $inputDatas = array();
 
-        if($standalone){
+        if ($standalone) {
             $this->setCommonDir();
             $params = $_SERVER['argv'];
             array_shift($params);

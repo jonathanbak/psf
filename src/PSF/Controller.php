@@ -5,6 +5,12 @@ namespace PSF;
 
 abstract class Controller
 {
+
+    public function assign($params = array())
+    {
+        Application::getTemplate()->assign($params);
+    }
+
     public function display($tpl = '', $properties = array())
     {
         if (!$tpl) {
