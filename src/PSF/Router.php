@@ -66,6 +66,7 @@ class Router extends Object
     {
         //현재 URL 에 맞는 route 실행
         $routeConfig = Config::site('route');
+        $customParams = array();
 
         if (count($this->routes) === 0) {
 
@@ -76,9 +77,11 @@ class Router extends Object
                 if (preg_match('/^\//i', $uri, $tmpMatch)) {
                     $uri = substr($uri, 1);
                 }
-                if ($uri == implode('/', $currentUri) && in_array(strtoupper($_SERVER['REQUEST_METHOD']), $method)) {
+                if (preg_match('/' . str_replace('/', '\/', $uri) . '/i', implode('/', $currentUri), $tmpMatch) && in_array(strtoupper($_SERVER['REQUEST_METHOD']), $method)) {
                     if (is_object($action)) {
                         $currentUri = $action;
+                        array_shift($tmpMatch);
+                        $customParams = $tmpMatch;
                     } else {
                         $currentUri = Uri::get($action);
                     }
@@ -87,7 +90,7 @@ class Router extends Object
         }
 
         if (is_object($currentUri)) {
-            return call_user_func_array($currentUri, array());
+            return call_user_func_array($currentUri, $customParams);
         } else {
             if (count($currentUri) == 1 && empty($currentUri[0])) {
                 $currentUri = Uri::get($routeConfig['autoload']);
