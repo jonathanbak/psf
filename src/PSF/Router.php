@@ -71,13 +71,14 @@ class Router extends Object
         if (count($this->routes) === 0) {
 
         } else {
+            $arrUri = Uri::get();
             foreach ($this->routes as $key => $route) {
                 list($method, $uri, $action) = $route;
                 if (!is_array($method)) $method = array($method);
                 if (preg_match('/^\//i', $uri, $tmpMatch)) {
                     $uri = substr($uri, 1);
                 }
-                if (preg_match('/' . str_replace('/', '\/', $uri) . '/i', implode('/', $currentUri), $tmpMatch) && in_array(strtoupper($_SERVER['REQUEST_METHOD']), $method)) {
+                if (preg_match('/' . str_replace('/', '\/', $uri) . '/i', implode('/', $arrUri), $tmpMatch) && in_array(strtoupper($_SERVER['REQUEST_METHOD']), $method)) {
                     if (is_object($action)) {
                         $currentUri = $action;
                         array_shift($tmpMatch);
