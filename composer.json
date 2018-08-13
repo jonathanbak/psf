@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "jonathanbak/mysqlilib": "1.2.1"
+        "jonathanbak/mysqlilib": "~1.2"
     },
     "require-dev": {
         "phpdocumentor/phpdocumentor": "dev-master",
