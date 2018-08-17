@@ -21,7 +21,8 @@ class Debug extends Object
     {
         $baseDir = Directory::siteRoot();
         $backtrace = debug_backtrace();
-        $callerFileName = str_replace($baseDir,'',$backtrace[0]['file']). " (".$backtrace[0]['line'].")";
+        $callerFileName = isset($backtrace[0]['file'])? str_replace($baseDir,'',$backtrace[0]['file']) : '';
+        if( isset($backtrace[0]['line']) ) $callerFileName .= " (".$backtrace[0]['line'].")";
 
 //        $messages = $self->convertCharset($messages, 'utf8');
         if(is_array($messages)) {
