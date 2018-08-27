@@ -103,12 +103,12 @@ class Model
      * @param array $params
      * @return array
      */
-    protected function arrayToRealEscape( $params = array() )
+    public function arrayToRealEscape( $params = array() )
     {
         return $this->db->arrayToRealEscape($params);
     }
 
-    protected function realEscapeString( $value )
+    public function realEscapeString( $value )
     {
         return $this->db->realEscapeString($value);
     }
@@ -118,7 +118,7 @@ class Model
      * @param array $arrayVal
      * @return array
      */
-    protected function intArrayQuote( $arrayVal = array() )
+    public function intArrayQuote( $arrayVal = array() )
     {
         return $this->db->intArrayQuote($arrayVal);
     }
@@ -128,7 +128,7 @@ class Model
      * @param array $params
      * @return array
      */
-    protected function parseArrayToQuery( $params = array() )
+    public function parseArrayToQuery( $params = array() )
     {
         return $this->db->parseArrayToQuery($params);
     }
