@@ -5,7 +5,7 @@ namespace PSF;
 use PSF\Exception\ConfigException;
 use PSF\Helper\ArraySearch;
 
-class Config extends Object
+class Config extends Singleton
 {
     static $site = array();
     static $db = array();

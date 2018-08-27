@@ -1,7 +1,7 @@
 <?php
 namespace PSF;
 
-class Object
+class Singleton
 {
     protected static $instances = array();
 

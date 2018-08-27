@@ -5,7 +5,7 @@ namespace PSF;
 use PSF\Exception\RouterException;
 use PSF\Helper\Uri;
 
-class Router extends Object
+class Router extends Singleton
 {
     /**
      * User Defined Route Information

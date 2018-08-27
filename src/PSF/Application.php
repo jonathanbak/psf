@@ -11,7 +11,7 @@ use PSF\Helper\ArrayMerge;
 use PSF\Helper\File;
 use PSF\Helper\Uri;
 
-class Application extends Object
+class Application extends Singleton
 {
     protected $template;
     protected $autoloader;

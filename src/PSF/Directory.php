@@ -4,7 +4,7 @@ namespace PSF;
 
 use PSF\Exception\DirectoryException;
 
-class Directory extends Object
+class Directory extends Singleton
 {
     protected $rootDir;
     protected $appDir;

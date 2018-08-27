@@ -5,7 +5,7 @@ namespace PSF;
 
 use PSF\Exception\OutputException;
 
-class Output extends Object
+class Output extends Singleton
 {
     /**
      * static 경로에 있는 파일인가
