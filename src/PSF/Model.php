@@ -75,6 +75,7 @@ class Model
 
     /**
      * 요청 쿼리에 맞는 데이터 한행을 리턴
+     * 쿼리 반복 실행시 다음 행을 리턴
      * @param $query    데이터 요청 쿼리
      * @param array $params
      * @return array|bool
@@ -82,6 +83,17 @@ class Model
     public function fetch($query, $params = array())
     {
         return $this->db->fetch($query, $params);
+    }
+
+    /**
+     * 쿼리 반복실행해도 최초 한 행을 리턴
+     * @param $query
+     * @param array $params
+     * @return mixed
+     */
+    public function fetchOne($query, $params = array())
+    {
+        return $this->db->fetchOne($query, $params);
     }
 
     public function countRows($query, $params = array())
