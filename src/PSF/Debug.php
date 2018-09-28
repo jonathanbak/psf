@@ -27,7 +27,7 @@ class Debug extends Singleton
 //        $messages = $self->convertCharset($messages, 'utf8');
         if(is_array($messages)) {
             $messages = json_encode($messages);
-            $messages = $this->unicode_decode($messages);
+//            $messages = $this->unicode_decode($messages);
         }
 
         $messages = "[" .$callerFileName . "] - " . $messages;
