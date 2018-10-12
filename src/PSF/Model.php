@@ -11,14 +11,17 @@ class Model
     protected $dbName = '';
     protected $callerClassName = '';
 
-    public function __construct( $dbName = '', $user = Constant::NONE, $password = Constant::NONE, $host = Constant::NONE, $port = Constant::MYSQL_PORT )
+    public function __construct( $dbAlias = '', $user = Constant::NONE, $password = Constant::NONE, $host = Constant::NONE, $port = Constant::MYSQL_PORT )
     {
-        if (empty(self::$_db[$dbName]) == true) {
+        if(!$dbAlias){
+            $options = Config::db( $dbAlias );
+            $dbAlias = @array_shift(array_keys($options));
+            $options = array_shift($options);
+        }
+        if (empty(self::$_db[$dbAlias]) == true) {
             if(empty($user)||empty($password)||empty($host)){
-                $options = Config::db( $dbName );
-                if(!$dbName) {
-                    $dbName = @array_shift(array_keys($options));
-                    $options = array_shift($options);
+                if(empty($options)){
+                    $options = Config::db( $dbAlias );
                 }
                 $host = $options['host'];
                 $user = $options['username'];
@@ -27,10 +30,9 @@ class Model
                 $port = $options['port'];
             }
             $this->dbName =$dbName;
-
-            self::$_db[$dbName] = new MySQLDb($host, $user, $password, $dbName, $port);
+            self::$_db[$dbAlias] = new MySQLDb($host, $user, $password, $dbName, $port);
         }
-        $this->db = static::$_db[$dbName];
+        $this->db = static::$_db[$dbAlias];
     }
 
     public function getDbName()
