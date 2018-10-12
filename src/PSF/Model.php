@@ -13,16 +13,7 @@ class Model
 
     public function __construct( $dbName = '', $user = Constant::NONE, $password = Constant::NONE, $host = Constant::NONE, $port = Constant::MYSQL_PORT )
     {
-        $backtrace = debug_backtrace();
-        $callerClassName = '';
-        foreach($backtrace as $fileInfo){
-            $callerClassName = get_class($fileInfo['object']) ."|". $fileInfo['function']."|". $fileInfo['line'] ;
-            break;
-        }
-        $this->callerClassName = $callerClassName;
-        $callerClassName = sha1($this->callerClassName);
-
-        if (empty(self::$_db[$callerClassName]) == true) {
+        if (empty(self::$_db[$dbName]) == true) {
             if(empty($user)||empty($password)||empty($host)){
                 $options = Config::db( $dbName );
                 if(!$dbName) {
@@ -37,9 +28,9 @@ class Model
             }
             $this->dbName =$dbName;
 
-            self::$_db[$callerClassName] = new MySQLDb($host, $user, $password, $dbName, $port);
+            self::$_db[$dbName] = new MySQLDb($host, $user, $password, $dbName, $port);
         }
-        $this->db = static::$_db[$callerClassName];
+        $this->db = static::$_db[$dbName];
     }
 
     public function getDbName()
