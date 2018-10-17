@@ -45,6 +45,6 @@ class Template implements TemplateInterface
     {
         $params = Helper\ArrayMerge::recursive_distinct($this->params, $params);
         extract($params);
-        require($this->templatePath . DIRECTORY_SEPARATOR . $templateFile);
+        require($this->templatePath . Directory::DIRECTORY_SEPARATOR . $templateFile);
     }
 }

@@ -23,18 +23,18 @@ class Config extends Singleton
     {
         $configDir = Directory::root();
 
-        return $configDir . DIRECTORY_SEPARATOR . Constant::COMMON_CONFIG_FILE;
+        return $configDir . Directory::DIRECTORY_SEPARATOR . Constant::COMMON_CONFIG_FILE;
     }
 
     protected function common($key = '')
     {
         $configDir = Directory::root();
 
-        if (!is_file($configDir . DIRECTORY_SEPARATOR . Constant::COMMON_CONFIG_FILE)) {
+        if (!is_file($configDir . Directory::DIRECTORY_SEPARATOR . Constant::COMMON_CONFIG_FILE)) {
             throw new ConfigException('COMMON ' . new Error(Error::NOT_FOUND_CONFIG) . "(" . Constant::COMMON_CONFIG_FILE . ")");
         }
 
-        $this->commonConfig = empty($this->commonConfig) ? $this->load($configDir . DIRECTORY_SEPARATOR . Constant::COMMON_CONFIG_FILE) : $this->commonConfig;
+        $this->commonConfig = empty($this->commonConfig) ? $this->load($configDir . Directory::DIRECTORY_SEPARATOR . Constant::COMMON_CONFIG_FILE) : $this->commonConfig;
 
         if ($key) {
             $resultValue = ArraySearch::searchValueByKey($key, $this->commonConfig);
@@ -94,11 +94,11 @@ class Config extends Singleton
         $currentSite = $this->getCurrentSite();
 
         $siteConfigFile = $currentSite . Constant::DOT . Constant::CONFIG_EXTENSION;
-        if (!is_file($configDir . DIRECTORY_SEPARATOR . $siteConfigFile)) {
+        if (!is_file($configDir . Directory::DIRECTORY_SEPARATOR . $siteConfigFile)) {
             throw new ConfigException($currentSite . new Error(Error::NOT_FOUND_CONFIG) . "(" . $siteConfigFile . ")");
         }
 
-        self::$site[$currentSite] = !isset(self::$site[$currentSite]) ? $this->load($configDir . DIRECTORY_SEPARATOR . $siteConfigFile) : self::$site[$currentSite];
+        self::$site[$currentSite] = !isset(self::$site[$currentSite]) ? $this->load($configDir . Directory::DIRECTORY_SEPARATOR . $siteConfigFile) : self::$site[$currentSite];
         if ($key) {
             $resultValue = ArraySearch::searchValueByKey($key, self::$site[$currentSite]);
             return $resultValue;
@@ -113,11 +113,11 @@ class Config extends Singleton
         $configDir = Directory::config(Constant::DIR_CONFIG_DB);
         $dbConfigFile = $dbFileName . Constant::DOT . Constant::CONFIG_EXTENSION;
 
-        if (!is_file($configDir . DIRECTORY_SEPARATOR . $dbConfigFile)) {
+        if (!is_file($configDir . Directory::DIRECTORY_SEPARATOR . $dbConfigFile)) {
             throw new ConfigException($dbFileName . new Error(Error::NOT_FOUND_CONFIG) . "(" . $dbConfigFile . ")");
         }
 
-        self::$db[$dbFileName] = !isset(self::$db[$dbFileName]) ? $this->load($configDir . DIRECTORY_SEPARATOR . $dbConfigFile) : self::$db[$dbFileName];
+        self::$db[$dbFileName] = !isset(self::$db[$dbFileName]) ? $this->load($configDir . Directory::DIRECTORY_SEPARATOR . $dbConfigFile) : self::$db[$dbFileName];
 
         if ($dbAlias) {
             return isset(self::$db[$dbFileName][$dbAlias]) ? self::$db[$dbFileName][$dbAlias] : Constant::NONE;

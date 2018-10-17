@@ -74,7 +74,7 @@ class Application extends Singleton
         $siteConfig = Config::site('dirs');
         $resultPath = ArraySearch::searchValueByKey($dir, $siteConfig);
         if ($resultPath === Constant::NONE) throw new DirectoryException("site " . $dir . " 디렉토리 설정이 잘못되었습니다.");
-        $dir = Directory::siteRoot() . DIRECTORY_SEPARATOR . $resultPath;
+        $dir = Directory::siteRoot() . Directory::DIRECTORY_SEPARATOR . $resultPath;
         return $dir;
     }
 
@@ -126,7 +126,7 @@ class Application extends Singleton
          */
         $appRoot = Directory::app();
         if (!is_dir($appRoot)) mkdir($appRoot, 0755, true);
-        $path = Directory::root() . DIRECTORY_SEPARATOR . Config::common('configDir');
+        $path = Directory::root() . Directory::DIRECTORY_SEPARATOR . Config::common('configDir');
         if (!is_dir($path)) mkdir($path, 0755, true);
         $path = Directory::config(Constant::DIR_CONFIG_SITE);
         if (!is_dir($path)) mkdir($path, 0755, true);
@@ -279,7 +279,7 @@ class Application extends Singleton
             }
         }
 
-        $configFileName = Directory::config(Constant::DIR_CONFIG_SITE) . DIRECTORY_SEPARATOR . $redirectSite . Constant::DOT . Constant::CONFIG_EXTENSION;
+        $configFileName = Directory::config(Constant::DIR_CONFIG_SITE) . Directory::DIRECTORY_SEPARATOR . $redirectSite . Constant::DOT . Constant::CONFIG_EXTENSION;
         File::put_json_pretty($configFileName, $siteNewConfigure);
         try {
             //폴더 생성
@@ -442,7 +442,7 @@ class Application extends Singleton
 
         $dbConfigure[$dbAlias] = ArrayMerge::recursive_distinct($dbConfigure[$dbAlias], $inputDatas);
 
-        $configFileName = Directory::config(Constant::DIR_CONFIG_DB) . DIRECTORY_SEPARATOR . $fileName . Constant::DOT . Constant::CONFIG_EXTENSION;
+        $configFileName = Directory::config(Constant::DIR_CONFIG_DB) . Directory::DIRECTORY_SEPARATOR . $fileName . Constant::DOT . Constant::CONFIG_EXTENSION;
         echo $configFileName . "\n";
         File::put_json_pretty($configFileName, $dbConfigure);
     }

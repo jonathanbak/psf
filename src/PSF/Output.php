@@ -15,7 +15,7 @@ class Output extends Singleton
      */
     protected function isStatic($uri = Constant::NONE)
     {
-        if (is_array($uri)) $uri = implode(DIRECTORY_SEPARATOR, $uri);
+        if (is_array($uri)) $uri = implode(Directory::DIRECTORY_SEPARATOR, $uri);
         $staticDirs = Config::site('dirs.view');
         $staticDirKeys = array_keys($staticDirs);
         if (preg_match('/^(' . implode('|', $staticDirKeys) . '){1}\/(.+)/i', $uri, $tmpMimeMatch)) {
@@ -27,7 +27,7 @@ class Output extends Singleton
     protected function display($tpl = Constant::NONE, $properties = array())
     {
         $templateExtension = Constant::DOT . (Config::site("extensionTemplate") ? Config::site("extensionTemplate") : Constant::TEMPLATE_EXTENSION);
-        $templateFile = Application::getSiteDir('template') . DIRECTORY_SEPARATOR . $tpl . $templateExtension;
+        $templateFile = Application::getSiteDir('template') . Directory::DIRECTORY_SEPARATOR . $tpl . $templateExtension;
         if (is_file($templateFile)) {
             Application::getTemplate()->display($tpl . $templateExtension, $properties);
         } else {
@@ -37,7 +37,7 @@ class Output extends Singleton
 
     protected function printStatic($staticUri = '')
     {
-        if (is_array($staticUri)) $staticUri = implode(DIRECTORY_SEPARATOR, $staticUri);
+        if (is_array($staticUri)) $staticUri = implode(Directory::DIRECTORY_SEPARATOR, $staticUri);
         $staticDirs = Config::site('dirs.view');
         $staticDirKeys = array_keys($staticDirs);
 
@@ -46,24 +46,24 @@ class Output extends Singleton
             $mimeFilePath = '';
             switch ($tmpMimeMatch[1]) {
                 case 'image':
-                    $mimeFilePath = Application::getSiteDir('view.image') . DIRECTORY_SEPARATOR . $tmpMimeMatch[2];
+                    $mimeFilePath = Application::getSiteDir('view.image') . Directory::DIRECTORY_SEPARATOR . $tmpMimeMatch[2];
                     $imageInfo = getimagesize($mimeFilePath);
                     header("Content-type: {$imageInfo['mime']}; charset=" . strtoupper($charset));
                     break;
                 case 'js':
-                    $mimeFilePath = Application::getSiteDir('view.js') . DIRECTORY_SEPARATOR . $tmpMimeMatch[2];
+                    $mimeFilePath = Application::getSiteDir('view.js') . Directory::DIRECTORY_SEPARATOR . $tmpMimeMatch[2];
                     header("Content-Type: application/javascript; charset=" . strtoupper($charset));
                     break;
                 case 'css':
-                    $mimeFilePath = Application::getSiteDir('view.css') . DIRECTORY_SEPARATOR . $tmpMimeMatch[2];
+                    $mimeFilePath = Application::getSiteDir('view.css') . Directory::DIRECTORY_SEPARATOR . $tmpMimeMatch[2];
                     header("Content-type: text/css; charset=" . strtoupper($charset));
                     break;
                 case 'font':
-                    $mimeFilePath = Application::getSiteDir('view.font') . DIRECTORY_SEPARATOR . $tmpMimeMatch[2];
+                    $mimeFilePath = Application::getSiteDir('view.font') . Directory::DIRECTORY_SEPARATOR . $tmpMimeMatch[2];
                     header("Content-type: application/octet-stream; charset=" . strtoupper($charset));
                     break;
                 default:
-                    $targetFile = Directory::siteRoot() . DIRECTORY_SEPARATOR . $staticUri;
+                    $targetFile = Directory::siteRoot() . Directory::DIRECTORY_SEPARATOR . $staticUri;
                     $mimeType = mime_content_type($targetFile);
                     header("Content-type: " . $mimeType . "; charset=" . strtoupper($charset));
                     $mimeFilePath = $targetFile;

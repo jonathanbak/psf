@@ -6,6 +6,8 @@ use PSF\Exception\DirectoryException;
 
 class Directory extends Singleton
 {
+    const DIRECTORY_SEPARATOR = '/';
+
     protected $rootDir;
     protected $appDir;
     protected $configDir;
@@ -25,7 +27,7 @@ class Directory extends Singleton
     protected function app()
     {
         if($this->appDir==Constant::NONE) throw new DirectoryException();
-        $dir = $this->root() . DIRECTORY_SEPARATOR . $this->appDir;
+        $dir = $this->root() . Directory::DIRECTORY_SEPARATOR . $this->appDir;
         return $dir;
     }
 
@@ -37,8 +39,8 @@ class Directory extends Singleton
     protected function config($type = '')
     {
         if($this->configDir==Constant::NONE) throw new DirectoryException();
-        $dir = $this->root() . DIRECTORY_SEPARATOR . $this->configDir;
-        return $dir . ($type ? DIRECTORY_SEPARATOR . $type : Constant::NONE);
+        $dir = $this->root() . Directory::DIRECTORY_SEPARATOR . $this->configDir;
+        return $dir . ($type ? Directory::DIRECTORY_SEPARATOR . $type : Constant::NONE);
     }
 
     protected function setConfig($configDir)
@@ -66,10 +68,10 @@ class Directory extends Singleton
 //        if (preg_match('/[.]/i', $dir, $tmpMatch)) {
 //            $dirs = explode('.', $dir);
 //            if (empty($siteConfig[$dirs[0]][$dirs[1]])) throw new DirectoryException("site " . $dir . " 디렉토리 설정이 잘못되었습니다.");
-//            $dir = $this->siteRoot() . DIRECTORY_SEPARATOR . $siteConfig[$dirs[0]][$dirs[1]];
+//            $dir = $this->siteRoot() . Directory::DIRECTORY_SEPARATOR . $siteConfig[$dirs[0]][$dirs[1]];
 //        } else {
 //            if (empty($siteConfig[$dir])) throw new DirectoryException("site " . $dir . " 디렉토리 설정이 잘못되었습니다.");
-//            $dir = $this->siteRoot() . DIRECTORY_SEPARATOR . $siteConfig[$dir];
+//            $dir = $this->siteRoot() . Directory::DIRECTORY_SEPARATOR . $siteConfig[$dir];
 //        }
 //
 //        return $dir;

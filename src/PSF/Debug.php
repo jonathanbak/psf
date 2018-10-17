@@ -10,7 +10,7 @@ class Debug extends Singleton
     protected function __construct()
     {
         $logDir = Application::getSiteDir('log');
-        $this->logFileName = $logDir . DIRECTORY_SEPARATOR . str_replace('{site}',$_SERVER['HTTP_HOST'],str_replace('{date}',date("Ymd"),$this->logFileName) );
+        $this->logFileName = $logDir . Directory::DIRECTORY_SEPARATOR . str_replace('{site}',$_SERVER['HTTP_HOST'],str_replace('{date}',date("Ymd"),$this->logFileName) );
 
         if(is_dir($logDir)==false){
             mkdir($logDir, 0777);
