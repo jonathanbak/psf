@@ -57,18 +57,27 @@ class Directory extends Singleton
 
     protected function setSiteRoot($siteRootDir)
     {
+        $this->siteRootDir = $this->getSiteRoot($siteRootDir);
+    }
+
+    protected function getSiteRoot($siteRootDir)
+    {
         if (preg_match('/^[~]/i', $siteRootDir, $tmpMatch)) $dir = str_replace('~', $this->app(), $siteRootDir);
         else $dir = $this->app() . $siteRootDir;
 
-        $this->siteRootDir = $dir;
+        return $dir;
     }
 
     protected function getSiteDir($dir, $siteUrl = '')
     {
         $siteConfig = Config::site('dirs', $siteUrl);
+        $siteRootDir = ArraySearch::searchValueByKey('root', $siteConfig);
+        if ($siteRootDir === Constant::NONE) throw new DirectoryException("site root 디렉토리 설정이 잘못되었습니다.");
+        $siteRootDir = $this->getSiteRoot($siteRootDir);
+
         $resultPath = ArraySearch::searchValueByKey($dir, $siteConfig);
         if ($resultPath === Constant::NONE) throw new DirectoryException("site " . $dir . " 디렉토리 설정이 잘못되었습니다.");
-        $dir = $this->siteRoot() . Directory::DIRECTORY_SEPARATOR . $resultPath;
+        $dir = $siteRootDir . Directory::DIRECTORY_SEPARATOR . $resultPath;
         return $dir;
     }
 
