@@ -3,6 +3,7 @@
 namespace PSF;
 
 use PSF\Exception\DirectoryException;
+use PSF\Helper\ArraySearch;
 
 class Directory extends Singleton
 {
@@ -62,18 +63,13 @@ class Directory extends Singleton
         $this->siteRootDir = $dir;
     }
 
-//    public function sitePath($dir)
-//    {
-//        $siteConfig = Configure::site('dirs');
-//        if (preg_match('/[.]/i', $dir, $tmpMatch)) {
-//            $dirs = explode('.', $dir);
-//            if (empty($siteConfig[$dirs[0]][$dirs[1]])) throw new DirectoryException("site " . $dir . " 디렉토리 설정이 잘못되었습니다.");
-//            $dir = $this->siteRoot() . Directory::DIRECTORY_SEPARATOR . $siteConfig[$dirs[0]][$dirs[1]];
-//        } else {
-//            if (empty($siteConfig[$dir])) throw new DirectoryException("site " . $dir . " 디렉토리 설정이 잘못되었습니다.");
-//            $dir = $this->siteRoot() . Directory::DIRECTORY_SEPARATOR . $siteConfig[$dir];
-//        }
-//
-//        return $dir;
-//    }
+    protected function getSiteDir($dir, $siteUrl = '')
+    {
+        $siteConfig = Config::site('dirs', $siteUrl);
+        $resultPath = ArraySearch::searchValueByKey($dir, $siteConfig);
+        if ($resultPath === Constant::NONE) throw new DirectoryException("site " . $dir . " 디렉토리 설정이 잘못되었습니다.");
+        $dir = $this->siteRoot() . Directory::DIRECTORY_SEPARATOR . $resultPath;
+        return $dir;
+    }
+
 }

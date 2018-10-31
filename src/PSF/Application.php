@@ -24,7 +24,10 @@ class Application extends Singleton
         Config::init();
         if (Config::common('installed')) {
             $this->setSiteRoot();
+            $this->displayErrors();
+            $this->loadIncludeSite();
             $this->autoload();
+            Security::ruleStart();
         }
     }
 
@@ -50,6 +53,28 @@ class Application extends Singleton
         return $this->template;
     }
 
+    protected function displayErrors()
+    {
+        $displayErrors = Config::site('displayErrors');
+        if(!empty($displayErrors) && ($displayErrors == 1 || strtolower($displayErrors) == 'on') ){
+            ini_set('display_errors','On');
+        }else {
+            ini_set('display_errors','Off');
+        }
+    }
+
+    protected function loadIncludeSite()
+    {
+        $includeSites = Config::site('include_sites');
+        if(!empty($includeSites)){
+            foreach($includeSites as $siteUrl ){
+                $siteNamespace = Config::site('namespace', $siteUrl);
+                $this->autoloader->setPsr4($siteNamespace . "\\", array(Directory::getSiteDir('controller', $siteUrl)));
+                $this->autoloader->setPsr4($siteNamespace . "\\Model\\", array(Directory::getSiteDir('model', $siteUrl)));
+            }
+        }
+    }
+
     /**
      * autoload 등록
      */
@@ -71,11 +96,7 @@ class Application extends Singleton
 
     protected function getSiteDir($dir)
     {
-        $siteConfig = Config::site('dirs');
-        $resultPath = ArraySearch::searchValueByKey($dir, $siteConfig);
-        if ($resultPath === Constant::NONE) throw new DirectoryException("site " . $dir . " 디렉토리 설정이 잘못되었습니다.");
-        $dir = Directory::siteRoot() . Directory::DIRECTORY_SEPARATOR . $resultPath;
-        return $dir;
+        return Directory::getSiteDir($dir);
     }
 
 

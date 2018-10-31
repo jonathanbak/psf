@@ -87,11 +87,11 @@ class Config extends Singleton
     }
 
 
-    protected function site($key = '')
+    protected function site($key = '', $currentSite = '')
     {
         $configDir = Directory::config(Constant::DIR_CONFIG_SITE);
 
-        $currentSite = $this->getCurrentSite();
+        if(!$currentSite) $currentSite = $this->getCurrentSite();
 
         $siteConfigFile = $currentSite . Constant::DOT . Constant::CONFIG_EXTENSION;
         if (!is_file($configDir . Directory::DIRECTORY_SEPARATOR . $siteConfigFile)) {
