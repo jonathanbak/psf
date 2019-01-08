@@ -104,7 +104,6 @@ class Application extends Singleton
     {
         if ($autoLoader !== NULL) $this->set($autoLoader, $rootDir);
 
-        Config::cli();
         //site settting
         $this->setSite();
 

@@ -15,6 +15,7 @@ class Config extends Singleton
 
     protected function init()
     {
+        $this->cli();
         Directory::setApp($this->common('appDir'));
         Directory::setConfig($this->common('configDir'));
     }
