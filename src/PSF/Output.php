@@ -47,6 +47,7 @@ class Output extends Singleton
             switch ($tmpMimeMatch[1]) {
                 case 'image':
                     $mimeFilePath = Application::getSiteDir('view.image') . Directory::DIRECTORY_SEPARATOR . $tmpMimeMatch[2];
+                    if (!is_file($mimeFilePath)) throw new OutputException("Not Found File. {$mimeFilePath}", 404);
                     $imageInfo = getimagesize($mimeFilePath);
                     header("Content-type: {$imageInfo['mime']}; charset=" . strtoupper($charset));
                     break;
@@ -64,6 +65,7 @@ class Output extends Singleton
                     break;
                 default:
                     $targetFile = Directory::siteRoot() . Directory::DIRECTORY_SEPARATOR . $staticUri;
+                    if (!is_file($targetFile)) throw new OutputException("Not Found File. {$targetFile}", 404);
                     $mimeType = mime_content_type($targetFile);
                     header("Content-type: " . $mimeType . "; charset=" . strtoupper($charset));
                     $mimeFilePath = $targetFile;
