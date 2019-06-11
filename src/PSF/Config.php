@@ -13,9 +13,9 @@ class Config extends Singleton
     protected $currentSite;
     protected $commonConfig;
 
-    protected function init()
+    protected function init($isCliCheck = true)
     {
-        $this->cli();
+        if($isCliCheck) $this->cli();
         Directory::setApp($this->common('appDir'));
         Directory::setConfig($this->common('configDir'));
     }

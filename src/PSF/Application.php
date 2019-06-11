@@ -31,12 +31,12 @@ class Application extends Singleton
         }
     }
 
-    protected function reset(ClassLoader $autoLoader, $rootDir = '')
+    protected function reset(ClassLoader $autoLoader, $rootDir = '', $isCliCheck = false)
     {
         if ($autoLoader instanceof ClassLoader === false) throw new Exception(new Error(Error::REQUIRE_AUTOLOADER));
         $this->autoloader = $autoLoader;
         Directory::setRoot(empty($rootDir) ? dirname($_SERVER['DOCUMENT_ROOT']) : $rootDir);
-        Config::init();
+        Config::init($isCliCheck);
 
         $newConfigure = ArrayMerge::recursive_distinct(Config::common(), array('installed' => '0'));
         $configFileName = Config::getCommonConfigFile();
