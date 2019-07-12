@@ -21,13 +21,16 @@ class Application extends Singleton
         if ($autoLoader instanceof ClassLoader === false) throw new Exception(new Error(Error::REQUIRE_AUTOLOADER));
         $this->autoloader = $autoLoader;
         Directory::setRoot(empty($rootDir) ? dirname($_SERVER['DOCUMENT_ROOT']) : $rootDir);
-        Config::init();
+
         if (Config::common('installed')) {
+            Config::init();
             $this->setSiteRoot();
             $this->displayErrors();
             $this->loadIncludeSite();
             $this->autoload();
             Security::ruleStart();
+        }else {
+            Config::init(false);
         }
     }
 
