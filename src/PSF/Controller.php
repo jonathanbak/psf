@@ -16,7 +16,8 @@ abstract class Controller
         if (!$tpl) {
             $callerClass = get_class($this);
             $callerClass = str_replace('\\', Directory::DIRECTORY_SEPARATOR, strtolower(str_replace(Application::site('namespace') . '\\', '', $callerClass)));
-            $callerFunc = debug_backtrace()[1]['function'];
+            $debugBackTrace = debug_backtrace();
+            $callerFunc = $debugBackTrace? $debugBackTrace[1]['function'] : __FUNCTION__;
             $tplFile = $callerClass . Directory::DIRECTORY_SEPARATOR . strtolower($callerFunc);
         } else {
             $tplFile = $tpl;
