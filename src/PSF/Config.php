@@ -4,6 +4,7 @@ namespace PSF;
 
 use PSF\Exception\ConfigException;
 use PSF\Helper\ArraySearch;
+use PSF\Helper\File;
 
 class Config extends Singleton
 {
@@ -32,7 +33,8 @@ class Config extends Singleton
         $configDir = Directory::root();
 
         if (!is_file($configDir . Directory::DIRECTORY_SEPARATOR . Constant::COMMON_CONFIG_FILE)) {
-            throw new ConfigException('COMMON ' . new Error(Error::NOT_FOUND_CONFIG) . "(" . Constant::COMMON_CONFIG_FILE . ")");
+//            throw new ConfigException('COMMON ' . new Error(Error::NOT_FOUND_CONFIG) . "(" . Constant::COMMON_CONFIG_FILE . ")");
+            $this->createCommonConfig($configDir . Directory::DIRECTORY_SEPARATOR . Constant::COMMON_CONFIG_FILE);
         }
 
         $this->commonConfig = empty($this->commonConfig) ? $this->load($configDir . Directory::DIRECTORY_SEPARATOR . Constant::COMMON_CONFIG_FILE) : $this->commonConfig;
@@ -43,6 +45,25 @@ class Config extends Singleton
         } else {
             return $this->commonConfig;
         }
+    }
+
+    protected function createCommonConfig($configFileName)
+    {
+        $defaultConfigure = array(
+            "description" => "PHP Simple Framework",
+            "charset" => "utf-8",
+            "development" => "1",
+            "displayErrors" => "on",
+            "allowIps" => array(
+                "127.0.0.1"
+            ),
+            "appDir" => "app",
+            "configDir" => "config",
+            "installed" => 0
+        );
+
+        File::put_json_pretty($configFileName, $defaultConfigure);
+
     }
 
     protected function cli()
