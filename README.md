@@ -38,13 +38,35 @@ themselves. To create libraries/packages please read the
     ``` json
     {
         "require": {
-            "jonathanbak/psf":"~1.0"
+            "jonathanbak/psf":"~1.1"
         }
     }
     ```
 
 3. Run Composer: `php composer.phar install`
-4. Browse for more packages on [Packagist](https://packagist.org).
+
+Start First Project
+-------------
+터미널에서 아래 스크립트를 실행후 데이터를 입력하시면 자동으로 폴더가 구성됩니다.
+```shell
+$ php ./vendor/jonathanbak/psf/bin/init.php 
+Create database configuration file [N/y]?y
+Input db file name (domain name) : sample.com
+Input db host : 127.0.0.1
+Input db user : test
+Input db password : testpassword
+Input database name : db_test 
+Input db alias name : dbalias
+Create new db..
+.../config/db/sec.wendybook.loc.json
+
+Create site configuration file [N/y]?y
+Input site namespace : SampleSite
+Input site domain : www.sample.com
+Input db file name : sample.com
+Create new site..
+OK.
+```
 
 
 Folder Structure
