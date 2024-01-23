@@ -48,7 +48,13 @@ class Output extends Singleton
                 case 'image':
                     $mimeFilePath = Application::getSiteDir('view.image') . Directory::DIRECTORY_SEPARATOR . $tmpMimeMatch[2];
                     if (!is_file($mimeFilePath)) throw new OutputException("Not Found File. {$mimeFilePath}", 404);
-                    $imageInfo = getimagesize($mimeFilePath);
+                    if(preg_match('/\.svg$/i',$mimeFilePath,$tmpMatch)) {
+                        $imageInfo = [];
+                        $imageInfo['mime'] = "image/svg+xml";
+                    }else {
+                        $imageInfo = getimagesize($mimeFilePath);
+                    }
+
                     header("Content-type: {$imageInfo['mime']}; charset=" . strtoupper($charset));
                     break;
                 case 'js':
