@@ -15,6 +15,11 @@ class Debug extends Singleton
         if(is_dir($logDir)==false){
             mkdir($logDir, 0777);
         }
+
+        if(!file_exists($this->logFileName)){
+            touch($this->logFileName);
+            chmod($this->logFileName, 0777);
+        }
     }
 
     protected function write( $messages, $loggroup = 'common')
@@ -45,8 +50,8 @@ class Debug extends Singleton
     protected function _log( $messages,  $loggroup = 'common')
     {
         $messages = "[".date("Y-m-d H:i:s")."] (".$loggroup.") ".$_SERVER['REMOTE_ADDR']." - ". $messages ."\n" ;
+
         file_put_contents($this->logFileName, $messages, FILE_APPEND);
-        chmod($this->logFileName, 0777);
     }
 
     protected function unicode_decode($str)
